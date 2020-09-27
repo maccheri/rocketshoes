@@ -2,9 +2,9 @@
 
 Shoes marketplace ReactJS app sample.
 
-## Running application
+## Running the application
 
-to run the app just install all dependencies using `yarn` and then use `yarn start`.
+To run the app just install all dependencies using `yarn` and then use `yarn start`.
 
 ## Backend mock server
 
