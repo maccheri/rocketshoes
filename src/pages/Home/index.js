@@ -1,116 +1,47 @@
 import React from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 import { ProductList } from './styles';
 
-function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-pulseboost-hd-adidas-masculino/34/NQQ-5284-234/NQQ-5284-234_zoom1.jpg?ims=326x"
-          alt="Tênis"
-        />
+export default class Home extends React.Component {
+  state = {
+    products: [],
+  };
 
-        <strong>
-          Tênis muito legal com título muito grande que qubra várias linhas
-        </strong>
-        <span>R$ 129,90</span>
+  async componentDidMount() {
+    const response = await api.get('products');
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
+    const data = response.data.map((product) => ({
+      ...product,
+      formattedPrice: formatPrice(product.price),
+    }));
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-pulseboost-hd-adidas-masculino/34/NQQ-5284-234/NQQ-5284-234_zoom1.jpg?ims=326x"
-          alt="Tênis"
-        />
+    this.setState({ products: data });
+  }
 
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,90</span>
+  render() {
+    const { products } = this.state;
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
+    return (
+      <ProductList>
+        {products.map((product) => (
+          <li key={product.id}>
+            <img src={product.image} alt={product.title} />
 
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-pulseboost-hd-adidas-masculino/34/NQQ-5284-234/NQQ-5284-234_zoom1.jpg?ims=326x"
-          alt="Tênis"
-        />
+            <strong>{product.title}</strong>
+            <span>{product.formattedPrice}</span>
 
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,90</span>
+            <button type="button">
+              <div>
+                <MdAddShoppingCart size={16} color="#fff" /> 3
+              </div>
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-pulseboost-hd-adidas-masculino/34/NQQ-5284-234/NQQ-5284-234_zoom1.jpg?ims=326x"
-          alt="Tênis"
-        />
-
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-pulseboost-hd-adidas-masculino/34/NQQ-5284-234/NQQ-5284-234_zoom1.jpg?ims=326x"
-          alt="Tênis"
-        />
-
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-      <li>
-        <img
-          src="https://static.netshoes.com.br/produtos/tenis-pulseboost-hd-adidas-masculino/34/NQQ-5284-234/NQQ-5284-234_zoom1.jpg?ims=326x"
-          alt="Tênis"
-        />
-
-        <strong>Tênis muito legal</strong>
-        <span>R$ 129,90</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
-
-          <span>ADICIONAR AO CARRINHO</span>
-        </button>
-      </li>
-    </ProductList>
-  );
+              <span>ADICIONAR AO CARRINHO</span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    );
+  }
 }
-
-export default Home;
